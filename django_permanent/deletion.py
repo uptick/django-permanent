@@ -2,6 +2,8 @@ from collections import Counter
 from functools import partial
 from operator import attrgetter
 
+import django
+
 from django.db import transaction
 from django.db.models import signals, sql
 from django.db.models.deletion import Collector
