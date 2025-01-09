@@ -55,12 +55,20 @@ def delete(self, force=False):
             deleted_counter[qs.model._meta.label] += count
 
         # update fields
-        for model, instances_for_fieldvalues in self.field_updates.items():
-            query = sql.UpdateQuery(model)
-            for (field, value), instances in instances_for_fieldvalues.items():
-                query.update_batch(
-                    [obj.pk for obj in instances], {field.name: value}, self.using
-                )
+        if django.VERSION < (4, 2, 0):
+            for model, instances_for_fieldvalues in self.field_updates.items():
+                query = sql.UpdateQuery(model)
+                for (field, value), instances in instances_for_fieldvalues.items():
+                    query.update_batch(
+                        [obj.pk for obj in instances], {field.name: value}, self.using
+                    )
+        else:
+            for (field, value), instances_list in self.field_updates.items():
+                query = sql.UpdateQuery(field.model)
+                for instances in instances_list:
+                    query.update_batch(
+                        [obj.pk for obj in instances], {field.name: value}, self.using
+                    )
 
         # reverse instance collections
         for instances in self.data.values():
@@ -88,10 +96,17 @@ def delete(self, force=False):
                     )
 
     # update collected instances
-    for model, instances_for_fieldvalues in self.field_updates.items():
-        for (field, value), instances in instances_for_fieldvalues.items():
-            for obj in instances:
-                setattr(obj, field.attname, value)
+    if django.VERSION < (4, 2, 0):
+        for model, instances_for_fieldvalues in self.field_updates.items():
+            for (field, value), instances in instances_for_fieldvalues.items():
+                for obj in instances:
+                    setattr(obj, field.attname, value)
+    else:
+        for (field, value), instances_list in self.field_updates.items():
+            for instances in instances_list:
+                for obj in instances:
+                    setattr(obj, field.attname, value)
+
     for model, instances in self.data.items():
         for instance in instances:
             if issubclass(model, PermanentModel) and not force:
