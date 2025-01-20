@@ -7,7 +7,6 @@ from .query import (
     DeletedQuerySet,
     NonDeletedQuerySet,
     PermanentQuerySet,
-    T,
 )
 
 CLS = TypeVar("CLS", bound=models.Manager)

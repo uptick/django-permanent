@@ -1,14 +1,14 @@
 import copy
+from collections.abc import MutableMapping
 from functools import partial
-from typing import TYPE_CHECKING, Any, MutableMapping, Self, TypeVar
+from typing import TYPE_CHECKING, Any, Self, TypeVar
 
 from django import VERSION as DJANGO_VERSION
-from django.db.models import Manager, Model
+from django.db.models import Model
 from django.db.models.deletion import Collector
 from django.db.models.query import QuerySet
 from django.db.models.query_utils import Q
-from django.db.models.sql.query import Query, RawQuery
-from django.db.models.sql.where import WhereNode
+from django.db.models.sql.query import Query
 
 from . import settings
 from .signals import post_restore, pre_restore
