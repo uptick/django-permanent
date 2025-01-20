@@ -9,34 +9,29 @@ help:
         column -s: -t |\
         less -R
 
-# Sort python files
-isort:
-	@echo "--- 🐍 Isorting 🐍 ---"
-	poetry run isort ${folder}
-
 # Ruffing python files
-ruff:
+ruff-check:
 	@echo "--- 🐕 Ruffing 🐕 ---"
-	poetry run ruff ${folder}
+	uv run ruff check ${folder}
 
 # Format python files
-lint/black:
+ruff-format:
 	@echo "--- 🎩 Blacking 🎩 ---"
-	poetry run black ${folder} --check
+	uv run ruff format ${folder} --check
 
 # Typecheck python files
 mypy:
 	@echo "--- ⚡ Mypying ⚡ ---"
-	poetry run mypy ${folder}
+	uv run mypy ${folder}
 
 # Run all linters
-lint: isort ruff lint/black mypy
+lint: ruff-check ruff-format mypy
 
 
 # Run all tests
 test:
 	@echo "--- 💃 Testing 💃 ---"
-	poetry run py.test --cov  ${folder}
+	uv run py.test --cov  ${folder}
 
 # Test and lint in CI
 ci: lint test
