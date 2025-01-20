@@ -11,7 +11,7 @@ from django.utils.timezone import now
 from .settings import FIELD
 
 
-def delete(self, force=False):
+def delete(self, force=False):  # noqa: C901
     """
     Patched the BaseCollector.delete with soft delete support for PermanentModel
     """
@@ -98,7 +98,7 @@ def delete(self, force=False):
 
     # update collected instances
     if django.VERSION < (4, 2, 0):
-        for model, instances_for_fieldvalues in self.field_updates.items():
+        for _, instances_for_fieldvalues in self.field_updates.items():
             for (field, value), instances in instances_for_fieldvalues.items():
                 for obj in instances:
                     setattr(obj, field.attname, value)
