@@ -1,28 +1,35 @@
-[tool.poetry]
+[project]
 name = "django-permanent"
 version = "1.3.2"
 description = "Yet another approach to provide soft (logical) delete or masking (thrashing) django models instead of deleting them physically from db."
 authors = [
-    "Mikhail Antonov <atin65536@gmail.com>",
-    "william chu <william.chu@uptickhq.com>",
+    { name = "Mikhail Antonov", email = "atin65536@gmail.com" },
+    { name = "william chu", email = "william.chu@uptickhq.com" },
 ]
+requires-python = "~=3.10"
 readme = "README.rst"
-packages = [{ include = "django_permanent" }]
+dependencies = ["django>=3.2.0,<5"]
 
-[tool.poetry.dependencies]
-python = "^3.10"
-django = ">=3.2.0,<5"
+[dependency-groups]
+dev = [
+    "isort>=5.12.0,<6",
+    "mypy>=1.0.0,<2",
+    "django-stubs>=1.14.0,<2",
+    "black>=23.1.0,<24",
+    "ruff>=0.0.246,<0.0.247",
+    "pytest>=7.2.1,<8",
+    "pytest-coverage>=0.0,<0.1",
+]
 
+[tool.hatch.build.targets.sdist]
+include = ["django_permanent"]
 
-[tool.poetry.group.dev.dependencies]
-isort = "^5.12.0"
-mypy = "^1.0.0"
-django-stubs = "^1.14.0"
-black = "^23.1.0"
-ruff = "^0.0.246"
-pytest = "^7.2.1"
-pytest-coverage = "^0.0"
+[tool.hatch.build.targets.wheel]
+include = ["django_permanent"]
 
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
 [tool.black]
 target-version = ["py311"]
@@ -81,7 +88,3 @@ exclude = [
 dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
 
 target-version = "py311"
-
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
