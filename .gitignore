@@ -8,3 +8,4 @@ build/
 src/
 .idea/
 .coverage
+/testdb

@@ -31,7 +31,7 @@ lint: ruff-check ruff-format mypy
 # Run all tests
 test:
 	@echo "--- 💃 Testing 💃 ---"
-	uv run py.test --cov  ${folder}
+	uv run pytest --cov
 
 # Test and lint in CI
 ci: lint test
