@@ -6,3 +6,6 @@ MANIFEST
 *.egg*
 build/
 src/
+.idea/
+.coverage
+/testdb

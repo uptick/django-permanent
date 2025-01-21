@@ -1,59 +1,40 @@
-[tool.poetry]
+[project]
 name = "django-permanent"
-version = "1.3.2"
+version = "4.2.0"
 description = "Yet another approach to provide soft (logical) delete or masking (thrashing) django models instead of deleting them physically from db."
 authors = [
-    "Mikhail Antonov <atin65536@gmail.com>",
-    "william chu <william.chu@uptickhq.com>",
+    { name = "Mikhail Antonov", email = "atin65536@gmail.com" },
+    { name = "william chu", email = "william.chu@uptickhq.com" },
 ]
+requires-python = "~=3.10"
 readme = "README.rst"
-packages = [{ include = "django_permanent" }]
+dependencies = [
+    "django>=3.2.0,<5",
+]
 
-[tool.poetry.dependencies]
-python = "^3.10"
-django = ">=3.2.0,<5"
+[dependency-groups]
+dev = [
+    "mypy>=1.0.0,<2",
+    "django-stubs>=1.14.0,<5",
+    "ruff>=0.9.2,<1",
+    "pytest>=7.2.1,<9",
+    "pytest-coverage>=0.0,<0.1",
+    "pytest-django>=4.9.0",
+]
 
+[tool.hatch.build.targets.sdist]
+include = ["django_permanent"]
 
-[tool.poetry.group.dev.dependencies]
-isort = "^5.12.0"
-mypy = "^1.0.0"
-django-stubs = "^1.14.0"
-black = "^23.1.0"
-ruff = "^0.0.246"
-pytest = "^7.2.1"
-pytest-coverage = "^0.0"
+[tool.hatch.build.targets.wheel]
+include = ["django_permanent"]
 
-
-[tool.black]
-target-version = ["py311"]
-include = "\\.pyi?$"
-preview = true
-line-length = 88
-force_exclude = "(\n  /(\n    | migrations\n  )/\n  | urls\\.py\n)\n"
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
 [tool.ruff]
 line-length = 88
-
-# Enable Pyflakes `E` and `F` codes by default.
-select = [
-    "F",   # Pyflakes
-    "E",   # Pycodestyle
-    "W",   # Pycodestyle
-    "C90", # Mccabe complexity
-    "C",   # flake8-comprehensions
-    "B",   # flake8-bugbear
-    "UP",  # pyupgrade
-    "S",   # bandit (security)
-    "DTZ", # Enforce good datetime
-    "BLE", # Blind exceptions
-]
-
-ignore = [
-    "E501", # Line length is done by black
-    "D202", # NoBlankLineAfterFunction
-    "S101", # Use of `assert` detected
-]
-
+target-version = "py312"
 # Exclude a variety of commonly ignored directories.
 exclude = [
     ".bzr",
@@ -77,11 +58,36 @@ exclude = [
     "venv",
 ]
 
+[tool.ruff.lint]
 # Allow unused variables when underscore-prefixed.
 dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
+# Enable Pyflakes `E` and `F` codes by default.
+select = [
+    "F",   # Pyflakes
+    "E",   # Pycodestyle
+    "W",   # Pycodestyle
+    "C90", # Mccabe complexity
+    "C",   # flake8-comprehensions
+    "B",   # flake8-bugbear
+    "UP",  # pyupgrade
+    "S",   # bandit (security)
+    "DTZ", # Enforce good datetime
+    "BLE", # Blind exceptions
+    "I",   # ISort
+]
 
-target-version = "py311"
+ignore = [
+    "E501", # Ruff formats the lines
+    "D202", # NoBlankLineAfterFunction
+    "S101", # Use of `assert` detected
+]
 
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+
+
+[tool.ruff.format]
+exclude = ["**/migrations/**", "**/urls.py"]
+
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "tests.settings"
+python_files = "tests.py test_*.py *_tests.py"

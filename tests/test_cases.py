@@ -3,7 +3,6 @@ from django.db.models.signals import post_delete
 from django.test import TestCase
 from django.utils.timezone import now
 
-from django_permanent.models import PermanentModel
 from django_permanent.signals import post_restore, pre_restore
 
 from .test_app.models import (

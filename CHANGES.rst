@@ -2,6 +2,15 @@
 CHANGELOG
 =========
 
+4.2.0 (2025-01-20)
+===================
+
++ Bring version number in line with django
++ Switch to ruff for fomatting and linting
+- Removed isort
+- Removed black
+
+
 
 1.3.2 (2025-01-10)
 ===================

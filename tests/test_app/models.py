@@ -115,7 +115,10 @@ class RestoreOnCreateModel(PermanentModel, BaseTestModel):
         restore_on_create = True
 
 
-class AllObjectsSubClassedNonDeletedQuerySet(PermanentQuerySet, NonDeletedQuerySet):
+class AllObjectsSubClassedNonDeletedQuerySet(
+    PermanentQuerySet["AllObjectsSubClassedNonDeletedModel"],
+    NonDeletedQuerySet["AllObjectsSubClassedNonDeletedModel"],
+):
     pass
 
 
