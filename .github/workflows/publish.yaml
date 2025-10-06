@@ -1,0 +1,21 @@
+name: Publish
+on:
+  push:
+    branches:
+      - master
+
+permissions:
+  id-token: write # Required for federated aws oidc
+  contents: write
+  actions: write
+  pull-requests: write
+  issues: write
+jobs:
+  Publish:
+    uses: uptick/actions/.github/workflows/ci.yaml@main
+    secrets: inherit
+    with:
+      uv: true
+      python: true
+      s3pypi-publish: true
+      command: make build
