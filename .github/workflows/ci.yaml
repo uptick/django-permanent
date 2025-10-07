@@ -1,0 +1,19 @@
+name: CI
+on:
+  push:
+    branches:
+      - master
+  pull_request: {}
+
+permissions:
+  id-token: write # Required for federated aws oidc
+  contents: write
+  actions: write
+  pull-requests: write
+  issues: write
+jobs:
+  CI:
+    uses: uptick/actions/.github/workflows/ci.yaml@main
+    secrets: inherit
+    with:
+      command: make ci

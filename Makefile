@@ -9,6 +9,11 @@ help:
         column -s: -t |\
         less -R
 
+# Build python package
+build:
+	@echo "--- 🔨 Building 🔨 ---"
+	uv build
+
 # Ruffing python files
 ruff-check:
 	@echo "--- 🐕 Ruffing 🐕 ---"
@@ -35,6 +40,4 @@ test:
 
 # Test and lint in CI
 ci: lint test
-
-
 
