@@ -13,7 +13,7 @@ permissions:
   issues: write
 jobs:
   CI:
-    uses: uptick/actions/.github/workflows/ci.yaml@main
+    uses: uptick/actions/.github/workflows/ci.yaml@main # ratchet:exclude
     secrets: inherit
     with:
       command: make ci
