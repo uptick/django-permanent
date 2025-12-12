@@ -12,7 +12,7 @@ permissions:
   issues: write
 jobs:
   Publish:
-    uses: uptick/actions/.github/workflows/ci.yaml@main
+    uses: uptick/actions/.github/workflows/ci.yaml@main # ratchet:exclude
     secrets: inherit
     with:
       uv: true
